@@ -1,0 +1,34 @@
+# Droidspaces options added on top of the phone's stock kernel config
+# Base: the device's own /proc/config.gz (RedMagicOS 10.0.12, Android 15)
+# Target: GKI 5.15 (android13-5.15), aarch64
+
+# --- required: containers cannot start without these ---
+CONFIG_SYSVIPC=y
+CONFIG_POSIX_MQUEUE=y
+CONFIG_IPC_NS=y
+CONFIG_PID_NS=y
+
+# --- recommended ---
+CONFIG_DEVTMPFS=y
+CONFIG_USER_NS=y
+
+# --- optional, enabled here because the kernel supports them ABI-safely ---
+CONFIG_MACVLAN=y
+CONFIG_IP6_NF_NAT=y
+CONFIG_IP6_NF_TARGET_MASQUERADE=y
+CONFIG_NETFILTER_XT_MATCH_ADDRTYPE=y
+CONFIG_TMPFS_POSIX_ACL=y
+CONFIG_TMPFS_XATTR=y
+
+# Deliberately NOT enabled (they break the GKI kABI, see Droidspaces docs):
+#   CONFIG_CFS_BANDWIDTH   -> --cpus limit
+#   CONFIG_CGROUP_PIDS     -> --pids-limit
+
+# Export every symbol instead of trimming to the GKI whitelist, so no vendor
+# module can ever miss a symbol it needs.
+# CONFIG_TRIM_UNUSED_KSYMS is not set
+
+# Keep the exact stock version string so anything comparing kernel versions
+# behaves as before.
+# CONFIG_LOCALVERSION_AUTO is not set
+CONFIG_LOCALVERSION="-android13-8-00017-gb1f32b310a30-ab12826353"

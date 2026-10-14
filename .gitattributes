@@ -1,0 +1,5 @@
+* text=auto
+*.sh text eol=lf
+*.patch text eol=lf
+*.config text eol=lf
+config.fragment text eol=lf
